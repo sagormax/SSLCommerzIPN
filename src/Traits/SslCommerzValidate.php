@@ -69,10 +69,16 @@ trait SslCommerzValidate
 
     private function get_total_due_by_order_number($order_number)
     {
-        $order      = Order::where('voucher_number', '=', $order_number)->firstOrFail();
-        $total_pay  = PaymentDetails::where('order_id', '=', $order->id)->sum('paid_amount');
-        $due        = ($order->total_cost - floatval($total_pay));
-        return ( $due === 0.0 ) ? 0 : $due;
+        try{
+            $order      = Order::where('voucher_number', '=', $order_number)->firstOrFail();
+            $total_pay  = PaymentDetails::where('order_id', '=', $order->id)->sum('paid_amount');
+            $due        = ($order->total_cost - floatval($total_pay));
+            return ( $due === 0.0 ) ? 0 : $due;
+        }
+        catch(Exception $e)
+        {
+            $this->writeLog(" Exception >>> :". json_encode($e) ."\n");
+        }
     }
 
     private function curl_validate_data_process($request)
