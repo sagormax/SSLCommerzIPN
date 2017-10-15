@@ -1,0 +1,33 @@
+{
+    "name": "Satouch/SSLCommerzIPN",
+    "type": "library",
+    "description": "SSLCOMMERZ IPN Payment Package.",
+    "keywords": [
+        "Satouch",
+        "SSLWIRELESS",
+        "SSLCommerzIPN"
+    ],
+    "homepage": "https://github.com/SSLWIRELESS/SSLCommerzIPN",
+    "license": "MIT",
+    "authors": [{
+        "name": "MD RASHEDUL ISLAM",
+        "email": "sagor.touch@gmail.com",
+        "role": "Developer"
+    }],
+    "require": {
+        "illuminate/support": "~5.1",
+        "php": "~5.6|~7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0||~5.0",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Satouch\\SSLCommerzIPN\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
