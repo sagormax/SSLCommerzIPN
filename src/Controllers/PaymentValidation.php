@@ -1,16 +1,16 @@
 <?php
-namespace SSLWIRELESS\SSLCommerzIPN\Controllers;
+namespace Satouch\SSLCommerzIPN\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
-use SSLWIRELESS\SSLCommerzIPN\Traits\PaymentHashValidation;
-// use SSLWIRELESS\SSLCommerzIPN\Traits\PaymentChecking;
-use SSLWIRELESS\SSLCommerzIPN\Traits\SslCommerzValidate;
-use SSLWIRELESS\SSLCommerzIPN\Traits\WriteLogTrait;
-use SSLWIRELESS\SSLCommerzIPN\Models\SslComIpn;
-use SSLWIRELESS\SSLCommerzIPN\Models\Order;
-use SSLWIRELESS\SSLCommerzIPN\Models\PaymentDetails;
+use Satouch\SSLCommerzIPN\Traits\PaymentHashValidation;
+// use Satouch\SSLCommerzIPN\Traits\PaymentChecking;
+use Satouch\SSLCommerzIPN\Traits\SslCommerzValidate;
+use Satouch\SSLCommerzIPN\Traits\WriteLogTrait;
+use Satouch\SSLCommerzIPN\Models\SslComIpn;
+use Satouch\SSLCommerzIPN\Models\Order;
+use Satouch\SSLCommerzIPN\Models\PaymentDetails;
 
 /**
  * This is a payment validation class

@@ -1,9 +1,9 @@
 <?php
 
-namespace SSLWIRELESS\SSLCommerzIPN;
+namespace Satouch\SSLCommerzIPN;
 
 use Illuminate\Support\ServiceProvider;
-use SSLWIRELESS\SSLCommerzIPN\Controllers\PaymentValidation;
+use Satouch\SSLCommerzIPN\Controllers\PaymentValidation;
 
 class SSLCommerzIPNServiceProvider extends ServiceProvider
 {

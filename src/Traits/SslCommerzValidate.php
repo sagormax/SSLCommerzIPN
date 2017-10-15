@@ -1,10 +1,10 @@
 <?php
-namespace SSLWIRELESS\SSLCommerzIPN\Traits;
+namespace Satouch\SSLCommerzIPN\Traits;
 
-use SSLWIRELESS\SSLCommerzIPN\Models\SslComIpn;
-use SSLWIRELESS\SSLCommerzIPN\Models\Order;
-use SSLWIRELESS\SSLCommerzIPN\Models\PaymentDetails;
-use SSLWIRELESS\SSLCommerzIPN\Models\OrderLog;
+use Satouch\SSLCommerzIPN\Models\SslComIpn;
+use Satouch\SSLCommerzIPN\Models\Order;
+use Satouch\SSLCommerzIPN\Models\PaymentDetails;
+use Satouch\SSLCommerzIPN\Models\OrderLog;
 
 trait SslCommerzValidate
 {

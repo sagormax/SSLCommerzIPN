@@ -1,5 +1,5 @@
 <?php
-namespace SSLWIRELESS\SSLCommerzIPN\Facades;
+namespace Satouch\SSLCommerzIPN\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

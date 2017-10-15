@@ -1,5 +1,5 @@
 <?php
-namespace SSLWIRELESS\SSLCommerzIPN\Models;
+namespace Satouch\SSLCommerzIPN\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

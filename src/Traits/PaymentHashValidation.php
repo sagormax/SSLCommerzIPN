@@ -1,5 +1,5 @@
 <?php
-namespace SSLWIRELESS\SSLCommerzIPN\Traits;
+namespace Satouch\SSLCommerzIPN\Traits;
 
 trait PaymentHashValidation
 {
