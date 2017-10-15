@@ -69,6 +69,8 @@ trait SslCommerzValidate
 
     private function get_total_due_by_order_number($order_number)
     {
+        $this->writeLog(" get_total_due_by_order_number >>> : processing... \n");
+
         try{
             $order      = Order::where('voucher_number', '=', $order_number)->firstOrFail();
             $total_pay  = PaymentDetails::where('order_id', '=', $order->id)->sum('paid_amount');
