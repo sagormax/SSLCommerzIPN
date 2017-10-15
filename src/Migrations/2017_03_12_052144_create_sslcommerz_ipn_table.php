@@ -1,5 +1,4 @@
 <?php
-namespace Satouch\SSLCommerzIPN\Migrations;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
