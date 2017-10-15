@@ -82,13 +82,18 @@ class PaymentValidation extends BaseController
              * Call SSL COMMERZ VALIDATE URL
              *
              * @get store_id, store_pass, validate_url
-             * @return true false
+             * @return true / false
              */
             $is_validate    = $this->call_validate_URL($storeID, $storePassword, $payment_validate_api_url, $request);
             if( !$is_validate )
             {
                 $this->writeLog(" sslcommerz call_validate_URL validation >>> : Failed \n");
-                return false;
+                // return false;
+                return json_encode([
+                    'status' => false,
+                    'data'   => [],
+                    'message'=> "sslcommerz URL validation failed. Please see logs"
+                ]);
             }
 
             /**
@@ -155,11 +160,19 @@ class PaymentValidation extends BaseController
 
             $this->writeLog(" sslcommerz_ipn INSERT status >>> :". $ipn_is_insert ."\n");
 
-            return $ipn_is_insert;     
+            return json_encode([
+                'status' => true,
+                'data'   => $ipn_is_insert,
+                'message'=> ""
+            ]);     
         }
         else
         {
-            return false;
+            return json_encode([
+                'status' => false,
+                'data'   => [],
+                'message'=> ""
+            ]);
         }
     }
 

@@ -47,7 +47,7 @@ PaymentValidation::validate($store_id, $store_passwd, $request);
 
 
 # server to server IPN hit and validate callback to sslcommerz
-# @return a collection of data that in last inserted otherwise FALSE;
+# @return a json object with status;
 # @note if tran_id/voucher_number not matched return load 404 page
 
 PaymentValidation::sslcommerz_ipn_data_insert( $store_id, $store_passwd, $validate_url, $request )
