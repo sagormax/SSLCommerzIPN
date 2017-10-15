@@ -15,11 +15,11 @@ class SSLCommerzIPNServiceProvider extends ServiceProvider
     public function boot()
     {
         # Load Views
-        $this->loadViewsFrom(__DIR__.'/Views', 'SSLCOMZIPN');
+        $this->loadViewsFrom(__DIR__.'/views', 'SSLCOMZIPN');
 
         # Publish Views
         $this->publishes([
-            __DIR__.'/Views' => base_path('resources/views/vendor/Satouch/SSLCommerzIPN'),
+            __DIR__.'/views' => base_path('resources/views/vendor/Satouch/SSLCommerzIPN/src/'),
         ]);
 
         # Publish Migrations
