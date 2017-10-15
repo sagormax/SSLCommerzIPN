@@ -19,7 +19,7 @@ class SSLCommerzIPNServiceProvider extends ServiceProvider
 
         # Publish Views
         $this->publishes([
-            __DIR__.'/Views' => base_path('resources/views/vendor/SSLWIRELESS/SSLCommerzIPN'),
+            __DIR__.'/Views' => base_path('resources/views/vendor/Satouch/SSLCommerzIPN'),
         ]);
 
         # Publish Migrations
@@ -29,7 +29,7 @@ class SSLCommerzIPNServiceProvider extends ServiceProvider
 
         # Publish Images
         $this->publishes([
-            __DIR__ . '/images/' => base_path('public/vendor/SSLWIRELESS/SSLCommerzIPN/images')
+            __DIR__ . '/images/' => base_path('public/vendor/Satouch/SSLCommerzIPN/images')
         ]);
     }
 
