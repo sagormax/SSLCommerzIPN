@@ -1,7 +1,7 @@
 {
     "name": "satouch/sslcommerz-ipn",
     "type": "library",
-    "description": "SSLCOMMERZ IPN Payment Package.",
+    "description": "SSLCOMMERZ Payment Package.",
     "keywords": [
         "Satouch",
         "SSLWIRELESS",

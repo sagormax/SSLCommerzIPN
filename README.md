@@ -1,20 +1,13 @@
-# SSLCOMMERZ IPN Payment Package
+# SSLCOMMERZ Payment Package
 
 
 ## Install
 
 ``` bash
-"Satouch/SSLCommerzIPN": "dev-master"
+"satouch/sslcommerz-ipn":"dev-master"
 ```
 
-``` bash
-"repositories": [
-    {
-        "type": "git",
-        "url": "https://github.com/sagormax/SSLCommerzIPN.git"
-    }
-], 
-```
+## Laravel 5
 
 ``` bash
 'providers' => [
