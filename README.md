@@ -4,7 +4,7 @@
 ## Install
 
 ``` bash
-"satouch/sslcommerz-ipn":"dev-master"
+composer require "satouch/sslcommerz-ipn":"dev-master"
 ```
 
 ## PHP
