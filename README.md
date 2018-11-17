@@ -7,6 +7,58 @@
 "satouch/sslcommerz-ipn":"dev-master"
 ```
 
+## PHP
+##### 1. Checkout Process : 
+``` bash
+require_once 'vendor/autoload.php';
+
+$post_data = array();
+$post_data['store_id'] = "test5be7d3b945c8c";
+$post_data['store_passwd'] = "test5be7d3b945c8c@ssl";
+$post_data['total_amount'] = "103";
+$post_data['currency'] = "BDT";
+$post_data['tran_id'] = "SSLCZ_TEST_".uniqid();
+$post_data['success_url'] = "http://localhost/SSLCommerzIPN/success.php";
+$post_data['fail_url'] = "http://localhost/SSLCommerzIPN/fail.php";
+$post_data['cancel_url'] = "http://localhost/SSLCommerzIPN/cancel.php";
+
+# checkout
+try{
+      $checkout    = new \Satouch\SSLCommerzIPN\Payments\Checkout();
+      $payment_url = $checkout->handle(
+          'https://sandbox.sslcommerz.com/gwprocess/v3/api.php', // SSLCOMMERZ payment api url
+          $post_data, // post data
+          false // is production(live)
+      );
+      header("location:".$payment_url);
+}
+catch (\Exception $e){
+      die($e->getMessage());
+      // do action
+}
+# END
+```
+##### 2. Success/Fail/Cancel page handle : 
+``` bash
+
+try{
+      $payment = (new \Satouch\SSLCommerzIPN\Payments\Validator())->validate(
+          'test5be7d3b945c8c', // storeID
+          'test5be7d3b945c8c@ssl', // storePassword
+          'https://sandbox.sslcommerz.com/validator/api/validationserverAPI.php' // payment validation URL
+      );
+      // do action
+
+      var_dump($payment->validation_status())."<br>"; // TRUE/FALSE
+      var_dump($payment->payment_status())."<br>"; // VALID/VALIDATED/FAILED
+      var_dump($payment->payment_response())."<br>"; // Response details
+}
+catch(\Exception $e){
+      die($e->getMessage());
+      // do action
+}
+```
+<!--
 ## Laravel 5
 
 ``` bash
@@ -55,7 +107,8 @@ PaymentValidation::ipn_payment_process( $request );
 # payment checkout page
 # @return if false return json_object or view sslcommerz checkout page
 
-
+-->
+``` bash
 # /* PHP sample post data */
 # $post_data = array();
 # $post_data['store_id'] = "testbox";
@@ -110,9 +163,6 @@ PaymentValidation::ipn_payment_process( $request );
 # $post_data['vat'] = "5";
 # $post_data['discount_amount'] = "5";
 # $post_data['convenience_fee'] = "3";
-
-
-PaymentValidation::payment_checkout($payment_api_url, $post_data);
 
 ```
 

@@ -1,7 +1,7 @@
 <?php
 namespace Satouch\SSLCommerzIPN\Traits;
 
-use Satouch\SSLCommerzIPN\Exceptions\CheckoutException;
+use Satouch\SSLCommerzIPN\Exceptions\CurlHTTPException;
 
 trait HTTPTrait
 {
@@ -20,7 +20,7 @@ trait HTTPTrait
        */
       public function httpCall($type, $base_uri, $parm, $live, $timeout = '60.0')
       {
-            $this->timeout = $timeout;
+            $this->timeout    = $timeout;
             $this->production = $live;
 
             try {
@@ -38,7 +38,7 @@ trait HTTPTrait
                   }
             } 
             catch (\Exception $e) {
-                  throw new CheckoutException('HTTP request exception has been made.');
+                  throw new CurlHTTPException('HTTP request exception has been made.');
             }
       }
 
@@ -63,7 +63,7 @@ trait HTTPTrait
             } else {
                   curl_close( $handle);
 
-                  throw new CheckoutException('cURL error : '.curl_errno($handle));
+                  throw new CurlHTTPException('cURL error : '.curl_errno($handle));
             }
       }
 }
