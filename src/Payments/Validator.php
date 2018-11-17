@@ -15,6 +15,18 @@ class Validator implements ValidationContract
       public $sslcommerz_payment_response;
 
       /**
+       * Validation getter
+       * @param $key
+       * @return mixed
+       */
+      public function __get($key)
+      {
+            if(isset($_REQUEST[$key])){
+                  return $_REQUEST[$key];
+            }
+      }
+
+      /**
        * Validate SSLCOMMERZ Data
        * @param $store_id
        * @param $store_password

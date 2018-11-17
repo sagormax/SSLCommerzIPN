@@ -11,13 +11,33 @@ class Checkout
 
       private $redirectURL;
 
+      /**
+       * Checkout getter
+       * @param $key
+       * @return mixed
+       */
+      public function __get($key)
+      {
+            if(isset($_REQUEST[$key])){
+                  return $_REQUEST[$key];
+            }
+      }
+
+      /**
+       * Handle checkout request
+       * @param $payment_url
+       * @param $data
+       * @param bool $live
+       * @return string
+       * @throws CheckoutException
+       * @throws \Satouch\SSLCommerzIPN\Exceptions\CurlHTTPException
+       */
       public function handle($payment_url, $data, $live = true)
       {
             $response = $this->httpCall('POST', $payment_url, $data, $live);
             $sslcz    = json_decode($response, true);
 
-            if( isset($sslcz['status']) && ($sslcz['status'] == 'SUCCESS') )
-            {
+            if( isset($sslcz['status']) && ($sslcz['status'] == 'SUCCESS') ) {
                   if(!isset($sslcz['GatewayPageURL'])){
                         throw new CheckoutException('SSLCOMMERZ invalid GatewayPageURL');
                   }
@@ -31,8 +51,7 @@ class Checkout
 
                   return $this->redirectURL;
             }
-            else
-            {
+            else {
                   throw new CheckoutException('SSLCOMMERZ checkout error: '.$response);
             }
       }

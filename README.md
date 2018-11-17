@@ -53,6 +53,19 @@ try{
       var_dump($payment->validation_status())."<br>"; // TRUE/FALSE
       var_dump($payment->payment_status())."<br>"; // VALID/VALIDATED/FAILED
       var_dump($payment->payment_response())."<br>"; // Response details
+      
+      # Additional Request Data
+      # $payment->status;
+      # $payment->tran_date;
+      # $payment->amount;
+      # $payment->card_no;
+      # $payment->card_type;
+      # $payment->card_brand;
+      # $payment->currency;
+      # $payment->currency_type;
+      # $payment->currency_amount;
+      # $payment->risk_level;
+      # $payment->risk_title;
 }
 catch(\Exception $e){
       die($e->getMessage());
