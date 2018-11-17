@@ -44,8 +44,7 @@ class Checkout
 
                   $this->redirectURL = $sslcz['GatewayPageURL'];
 
-                  if( isset($data['multi_card_name']) )
-                  {
+                  if( isset($data['multi_card_name']) ) {
                         $this->redirectURL = $sslcz['redirectGatewayURL'].$data['multi_card_name'];
                   }
 
