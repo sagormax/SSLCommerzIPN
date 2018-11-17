@@ -4,7 +4,7 @@
 ## Install
 
 ``` bash
-composer require "satouch/sslcommerz-ipn":"dev-master"
+$ composer require "satouch/sslcommerz-ipn":"dev-master"
 ```
 
 ## PHP
@@ -24,12 +24,13 @@ $post_data['cancel_url'] = "http://localhost/SSLCommerzIPN/cancel.php";
 
 # checkout
 try{
-      $checkout    = new \Satouch\SSLCommerzIPN\Payments\Checkout();
-      $payment_url = $checkout->handle(
-          'https://sandbox.sslcommerz.com/gwprocess/v3/api.php', // SSLCOMMERZ payment api url
-          $post_data, // post data
-          false // is production(live)
+      $payment_url = (new \Satouch\SSLCommerzIPN\Payments\Checkout())->handle(
+            'https://sandbox.sslcommerz.com/gwprocess/v3/api.php', // SSLCOMMERZ payment api url
+            $post_data, // post data
+            false // is production(live)
       );
+        
+      # Redirect URL to SSLCOMMERZ payment page
       header("location:".$payment_url);
 }
 catch (\Exception $e){
@@ -38,7 +39,7 @@ catch (\Exception $e){
 }
 # END
 ```
-##### 2. Success/Fail/Cancel page handle : 
+##### 2. success/fail/cancel page handle : 
 ``` bash
 
 try{
@@ -58,6 +59,17 @@ catch(\Exception $e){
       // do action
 }
 ```
+
+##### Exceptions:
+
+``` bash
+\Satouch\SSLCommerzIPN\Exceptions\ValidationException
+\Satouch\SSLCommerzIPN\Exceptions\CheckoutException
+\Satouch\SSLCommerzIPN\Exceptions\CurlHTTPException
+\Satouch\SSLCommerzIPN\Exceptions\RiskPaymentException
+\Satouch\SSLCommerzIPN\Exceptions\PaymentAlreadyValidatedException
+```
+
 <!--
 ## Laravel 5
 

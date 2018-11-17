@@ -18,7 +18,7 @@ trait SslCommerzValidate
        * @param $storePassword
        * @param $val_id
        * @param $payment_validate_api_url
-       * @return bool
+       * @return array
        */
       public function call_validate_URL( $storeID, $storePassword, $val_id, $payment_validate_api_url )
       {

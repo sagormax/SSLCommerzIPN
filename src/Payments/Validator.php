@@ -1,7 +1,6 @@
 <?php
 namespace Satouch\SSLCommerzIPN\Payments;
 
-use Satouch\SSLCommerzIPN\Traits\WriteLogTrait;
 use Satouch\SSLCommerzIPN\Traits\SslCommerzValidate;
 use Satouch\SSLCommerzIPN\Traits\PaymentHashValidation;
 use Satouch\SSLCommerzIPN\Contracts\ValidationContract;
@@ -9,12 +8,11 @@ use Satouch\SSLCommerzIPN\Exceptions\ValidationException;
 
 class Validator implements ValidationContract
 {
-      use WriteLogTrait, PaymentHashValidation, SslCommerzValidate;
+      use PaymentHashValidation, SslCommerzValidate;
 
       public $sslcommerz_validation;
       public $sslcommerz_payment_status;
       public $sslcommerz_payment_response;
-      private $feedback = false;
 
       /**
        * Validate SSLCOMMERZ Data
@@ -47,14 +45,10 @@ class Validator implements ValidationContract
             }
 
             if( isset($_POST['verify_sign']) && isset($_POST['verify_key']) ) {
-                  $this->writeLog("SSLCOMMERZ : hash_varify >>> : Processing... \n");
-
                   # Hash validation
                   $this->_SSLCOMMERZ_hash_verify( $storePassword, $_POST['verify_sign'], $_POST['verify_key'] );
             }
             else {
-                  $this->writeLog("SSLCOMMERZ : verify_sign and verify_key >>> : Not SET \n");
-
                   throw new ValidationException('verify sign & verify key is missing.', 422);
             }
 
@@ -67,7 +61,7 @@ class Validator implements ValidationContract
        * @param $store_password
        * @param $val_id
        * @param $payment_validate_api_url
-       * @return bool
+       * @return array
        * @throws ValidationException
        */
       private function sslcommerz_validate($store_id, $store_password, $val_id, $payment_validate_api_url)
