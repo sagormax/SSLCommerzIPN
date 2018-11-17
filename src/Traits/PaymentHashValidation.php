@@ -1,13 +1,14 @@
 <?php
 namespace Satouch\SSLCommerzIPN\Traits;
 
+use Satouch\SSLCommerzIPN\Exceptions\ValidationException;
+
 trait PaymentHashValidation
 {
     # FUNCTION TO CHECK HASH VALUE
-    public function _SSLCOMMERZ_hash_varify($store_passwd = "", $verify_sign, $verify_key) 
+    public function _SSLCOMMERZ_hash_verify($store_passwd = "", $verify_sign, $verify_key)
     {
-        if( isset($verify_sign) && isset($verify_key) )
-        {
+        if( isset($verify_sign) && isset($verify_key) ) {
             # NEW ARRAY DECLARED TO TAKE VALUE OF ALL POST    
             $pre_define_key = explode(',', $verify_key);
             
@@ -32,18 +33,16 @@ trait PaymentHashValidation
             foreach($new_data as $key=>$value) { $hash_string .= $key.'='.($value).'&'; }
             $hash_string = rtrim($hash_string,'&');
             
-            if(md5($hash_string) == $verify_sign)
-            {                
-                return true;                
-            }
-            else 
+            if(md5($hash_string) != $verify_sign)
             {
-                return false;
+                throw new ValidationException('Hash string and verify sign not matched.', 422);
             }
+
+            return true;
         } 
         else
-        { 
-            return false;
+        {
+              throw new ValidationException('verify sign & verify key is missing.', 422);
         }    
     }
 

@@ -4,6 +4,8 @@ namespace Satouch\SSLCommerzIPN\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Satouch\SSLCommerzIPN\Payments\Checkout;
+use Satouch\SSLCommerzIPN\Payments\Validator;
 use Satouch\SSLCommerzIPN\Traits\PaymentHashValidation;
 // use Satouch\SSLCommerzIPN\Traits\PaymentChecking;
 use Satouch\SSLCommerzIPN\Traits\SslCommerzValidate;
@@ -24,40 +26,23 @@ class PaymentValidation extends BaseController
 
     private $tran_id  = 0;
     private $feedback = false;
+    protected $validator;
+    protected $checkout;
+
+    public function __construct()
+    {
+          $this->validator = new Validator();
+          $this->checkout  = new Checkout();
+    }
 
     /***
      * SSLCOMMERZ HASH validator
      *
      * validate hash and verify_sign
      */
-    public function validate( $storeID, $storePassword, $request )
+    public function validate( $storePassword )
     {
-        if( isset($request->verify_sign) && isset($request->verify_key) )
-        {
-            $this->writeLog(" verify_sign and verify_key >>> : SET \n");
-
-            $tran_id        = $request->tran_id;
-            $val_id         = $request->val_id;
-            $verify_sign    = $request->verify_sign;
-            $verify_key     = $request->verify_key;
-            $postAmount     = $request->amount;
-
-            # site_store_info
-            $store_id       = ($storeID);
-            $store_passwd   = $storePassword;
-
-            $this->writeLog(" _SSLCOMMERZ_hash_varify >>> : Processing... \n");
-            # Hash validation
-            $this->feedback = $this->_SSLCOMMERZ_hash_varify( $store_passwd, $verify_sign, $verify_key );
- 
-            $this->writeLog(" _SSLCOMMERZ_hash_varify status >>> :". $this->feedback ."\n");
-            
-        }
-        else
-        {
-            $this->writeLog(" verify_sign and verify_key >>> : Not SET \n");
-            $this->feedback = false;
-        }
+        $this->feedback = $this->validator->validate($storePassword);
 
         return $this->feedback;
     }
@@ -271,140 +256,18 @@ class PaymentValidation extends BaseController
         return $order;
     }
 
-    /***
-     * render payment page
-     *
-     * @return a view for payment page or exception
-     */
-    public function payment_checkout($payment_url, $data)
-    {
-        $handle = curl_init();
-        curl_setopt($handle, CURLOPT_URL, $payment_url );
-        curl_setopt($handle, CURLOPT_TIMEOUT, 10);
-        curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 10);	
-        curl_setopt($handle, CURLOPT_POST, 1 );
-        curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-
-        $content = curl_exec($handle );
-        $code    = curl_getinfo($handle, CURLINFO_HTTP_CODE);
-        $errorno = curl_errno($handle);
-        curl_close( $handle);
-
-        if($code == 200 && !( $errorno))
-        {            
-            $sslcommerzResponse = $content;	
-
-            # Write log
-            $this->writelog('cURL status/response >>> : '.json_encode($sslcommerzResponse));
-            # END
-
-            # PARSE THE JSON RESPONSE 
-            $sslcz = json_decode($sslcommerzResponse, true );
-            if(isset($sslcz['status']) && $sslcz['status']=='SUCCESS')
-            {
-                $redirect_url = $sslcz['GatewayPageURL'];
-                if( isset($data['multi_card_name']) )
-                {
-                    $redirect_url = $sslcz['redirectGatewayURL'].$data['multi_card_name'];
-                }
-
-                # header redirect
-                return view('SSLCOMZIPN::checkout-redirect', ['redirect_url' => $redirect_url]);
-            }
-            else
-            {   
-                # Write log
-                $this->writelog('cURL status/response >>> : Invalid Credential!');
-                # END
-
-                return json_encode([
-                    'status'    => $sslcz['status'],
-                    'curl_errno'=> $errorno,
-                    'message'   => "Invalid Credential!"
-                ]);
-            }
-        }
-        else { 
-            # Write log
-            $this->writelog('cURL status/response >>> : FAILED TO CONNECT WITH SSLCOMMERZ API');
-            # END
-
-            return json_encode([
-                'status'    => $code,
-                'curl_errno'=> $errorno,
-                'message'   => "FAILED TO CONNECT WITH SSLCOMMERZ API"
-            ]);
-        }
-        #END
-    }
-
-    /***
-     * render payment page api v3.5
-     *
-     * @return a view for payment page or exception
-     */
-    public function payment_checkout_v3_5($payment_url, $data)
-    {
-        $handle = curl_init();
-        curl_setopt($handle, CURLOPT_URL, $payment_url );
-        curl_setopt($handle, CURLOPT_TIMEOUT, 10);
-        curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 10);	
-        curl_setopt($handle, CURLOPT_POST, 1 );
-        curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-
-        $content = curl_exec($handle );
-        $code    = curl_getinfo($handle, CURLINFO_HTTP_CODE);
-        $errorno = curl_errno($handle);
-        curl_close( $handle);
-
-        if($code == 200 && !( $errorno))
-        {            
-            $sslcommerzResponse = $content;	
-
-            # Write log
-            $this->writelog('cURL status/response >>> : '.json_encode($sslcommerzResponse));
-            # END
-
-            # PARSE THE JSON RESPONSE 
-            $sslcz = json_decode($sslcommerzResponse, true );
-            if(isset($sslcz['GatewayPageURL']) && $sslcz['GatewayPageURL']!="" )
-            {
-                $redirect_url = $sslcz['GatewayPageURL'];
-                if( isset($data['multi_card_name']) )
-                {
-                    $redirect_url = $sslcz['redirectGatewayURL'].$data['multi_card_name'];
-                }
-
-                # header redirect
-                return view('SSLCOMZIPN::checkout-redirect', ['redirect_url' => $redirect_url]);
-            }
-            else
-            {   
-                # Write log
-                $this->writelog('cURL status/response >>> : Invalid Credential!');
-                # END
-
-                return json_encode([
-                    'status'    => $sslcz['status'],
-                    'curl_errno'=> $errorno,
-                    'message'   => "Invalid Credential!"
-                ]);
-            }
-        }
-        else { 
-            # Write log
-            $this->writelog('cURL status/response >>> : FAILED TO CONNECT WITH SSLCOMMERZ API');
-            # END
-
-            return json_encode([
-                'status'    => $code,
-                'curl_errno'=> $errorno,
-                'message'   => "FAILED TO CONNECT WITH SSLCOMMERZ API"
-            ]);
-        }
-        #END
-    }
-
+      /**
+       * Render payment page
+       * @param $payment_url
+       * @param $data
+       * @param bool $live
+       * @return mixed
+       * @throws \Satouch\SSLCommerzIPN\Exceptions\CheckoutException
+       */
+      public function payment_checkout($payment_url, $data, $live = true)
+      {
+          return view('SSLCOMZIPN::checkout-redirect', [
+              'redirect_url' => $this->checkout->handle($payment_url, $data, $live)
+          ]);
+      }
 }

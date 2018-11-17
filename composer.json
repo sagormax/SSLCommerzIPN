@@ -15,12 +15,12 @@
         "role": "Developer"
     }],
     "require": {
-        "illuminate/support": "~5.1",
-        "php": "~5.6|~7.0"
+        "php": "~5.6|~7.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "hassankhan/config": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0||~5.0",
-        "squizlabs/php_codesniffer": "^2.3"
+        "phpunit/phpunit": "~4.0||~5.0"
     },
     "autoload": {
         "psr-4": {
