@@ -7,7 +7,7 @@ use Satouch\SSLCommerzIPN\Exceptions\PaymentAlreadyValidatedException;
 
 trait SslCommerzValidate
 {
-      use HTTPTrait;
+      use HTTPTrait, WriteLogTrait;
 
       private $payment_status = '';
       private $status_msg     = '';
