@@ -1,5 +1,5 @@
 {
-    "name": "satouch/sslcommerz",
+    "name": "satouch/sslcommerz-ipn",
     "type": "library",
     "description": "SSLCOMMERZ IPN Payment Package.",
     "keywords": [
@@ -7,7 +7,7 @@
         "SSLWIRELESS",
         "SSLCommerzIPN"
     ],
-    "homepage": "https://github.com/sagormax/sslcommerz",
+    "homepage": "https://github.com/sagormax/SSLCommerzIPN",
     "license": "MIT",
     "authors": [{
         "name": "MD RASHEDUL ISLAM",
